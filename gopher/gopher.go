@@ -17,4 +17,5 @@ func PrintGopher() {
 	fmt.Println(" `::::::::::::::::` ")
 	fmt.Println("  .::::::::::::::.  ")
 	fmt.Println("    oO:::::::Oo     ")
+	fmt.Println()
 }
