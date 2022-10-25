@@ -7,8 +7,8 @@ import "fmt"
 type Deck []string
 
 // Prints each card of deck in one line
-func (d Deck) Print() {
-	for _, card := range d {
+func (deck Deck) Print() {
+	for _, card := range deck {
 		fmt.Println(card)
 	}
 }
@@ -41,3 +41,7 @@ func getCardValues() []string {
 	return []string{"Ace", "Two", "Three", "Four"}
 }
 
+// Returns a cards for hand and remaining cards
+func Deal(deck Deck, handSize int) (Deck, Deck) {
+	return deck[:handSize], deck[handSize:]
+}
