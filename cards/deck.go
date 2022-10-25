@@ -1,6 +1,12 @@
 package cards
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+	"strings"
+)
+
+const sep = ";"
 
 // Create a new type of 'Deck'
 // which is a slice of strings
@@ -11,6 +17,10 @@ func (deck Deck) Print() {
 	for _, card := range deck {
 		fmt.Println(card)
 	}
+}
+
+func (deck Deck) ToString() string {
+	return strings.Join([]string(deck), sep)
 }
 
 // Returns a new instance of Deck type
@@ -44,4 +54,13 @@ func getCardValues() []string {
 // Returns a cards for hand and remaining cards
 func Deal(deck Deck, handSize int) (Deck, Deck) {
 	return deck[:handSize], deck[handSize:]
+}
+
+// Saves a deck to the file
+func (deck Deck) SaveToFile(filename string) error {
+	return ioutil.WriteFile(
+		filename,
+		[]byte(deck.ToString()),
+		0666,
+	)
 }
