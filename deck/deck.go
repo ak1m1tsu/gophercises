@@ -2,7 +2,6 @@ package deck
 
 import (
 	"fmt"
-	"io/ioutil"
 	"math/rand"
 	"os"
 	"strings"
@@ -36,7 +35,7 @@ func (deck Deck) Shuffle() {
 
 // Saves a deck to the file
 func (deck Deck) SaveToFile(filename string) error {
-	return ioutil.WriteFile(
+	return os.WriteFile(
 		filename,
 		[]byte(deck.ToString()),
 		0666,
@@ -56,7 +55,7 @@ func New() Deck {
 
 // Read file and returns a instance of 'Deck'
 func NewFromFile(filename string) Deck {
-	bs, err := ioutil.ReadFile(filename)
+	bs, err := os.ReadFile(filename)
 	if err != nil {
 		fmt.Println("ERROR |", err)
 		os.Exit(1)
