@@ -3,6 +3,7 @@ package cards
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -63,4 +64,15 @@ func (deck Deck) SaveToFile(filename string) error {
 		[]byte(deck.ToString()),
 		0666,
 	)
+}
+
+// Read file and returns a instance of 'Deck'
+func NewDeckFromFile(filename string) Deck {
+	bs, err := ioutil.ReadFile(filename)
+	if err != nil {
+		fmt.Println("ERROR |", err)
+		os.Exit(1)
+	}
+	data := strings.Split(string(bs), sep)
+	return Deck(data)
 }
