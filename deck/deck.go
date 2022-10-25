@@ -1,4 +1,4 @@
-package cards
+package deck
 
 import (
 	"fmt"
