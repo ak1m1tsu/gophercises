@@ -16,37 +16,28 @@ type problem struct {
 }
 
 type config struct {
-	csvFilename *string
-	timeLimit   *int
-	isShuffle   *bool
+	CsvFilename *string
+	TimeLimit   *int
+	IsShuffle   *bool
 }
 
-func Run() {
-	config := newConfig()
-	file := openAndReadCsvFile(*config.csvFilename)
-	lines := readCsvFile(file)
-	problems := parseLines(lines, *config.isShuffle)
-	timer := getTimer(config.timeLimit)
-	printCountCorrectAnswers(problems, timer)
-}
-
-func newConfig() config {
+func NewConfig() config {
 	csvFilename := flag.String("csv", "problems.csv", "A csv file in the format of 'question,answer'")
 	timeLimit := flag.Int("limit", 30, "The time limit for the quiz in seconds")
 	isShuffle := flag.Bool("shuffle", false, "Shuffle problems or not")
 	flag.Parse()
 	return config{
-		csvFilename: csvFilename,
-		timeLimit:   timeLimit,
-		isShuffle:   isShuffle,
+		CsvFilename: csvFilename,
+		TimeLimit:   timeLimit,
+		IsShuffle:   isShuffle,
 	}
 }
 
-func getTimer(limit *int) *time.Timer {
+func GetTimer(limit *int) *time.Timer {
 	return time.NewTimer(time.Second * time.Duration(*limit))
 }
 
-func openAndReadCsvFile(filename string) *os.File {
+func GetCsvFile(filename string) *os.File {
 	file, err := os.Open(filename)
 	if err != nil {
 		exit(fmt.Sprintf("Failed to open the CSV file: %s\n", filename))
@@ -54,7 +45,7 @@ func openAndReadCsvFile(filename string) *os.File {
 	return file
 }
 
-func readCsvFile(file *os.File) [][]string {
+func ReadCsvFile(file *os.File) [][]string {
 	r := csv.NewReader(file)
 	lines, err := r.ReadAll()
 	if err != nil {
@@ -63,7 +54,7 @@ func readCsvFile(file *os.File) [][]string {
 	return lines
 }
 
-func parseLines(lines [][]string, isShuffle bool) []problem {
+func ParseLines(lines [][]string, isShuffle bool) []problem {
 	problems := make([]problem, len(lines))
 	for i, line := range lines {
 		problems[i] = problem{
@@ -87,7 +78,7 @@ func shuffleProblems(problems []problem) {
 	}
 }
 
-func printCountCorrectAnswers(problems []problem, timer *time.Timer) {
+func PrintCountCorrectAnswers(problems []problem, timer *time.Timer) {
 	correct := 0
 	for i, problem := range problems {
 		fmt.Printf("Problem #%d: %s = ", i+1, problem.question)

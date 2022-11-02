@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func RunBankHeist() {
+func Run() {
 	rand.Seed(time.Now().UnixNano())
 
 	isHeistOn := true

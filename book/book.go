@@ -2,7 +2,7 @@ package book
 
 import "fmt"
 
-func RunBookApp() {
+func Run() {
 	title, writer := "Mr. GoToSleep", "Tracey Hatchet"
 	artist, publisher := "Jewel Tampson", "DizzyBooks Publishing Inc."
 	ganre := "Romance"
