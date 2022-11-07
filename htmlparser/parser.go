@@ -37,11 +37,11 @@ func buildLink(n *html.Node) Link {
 			break
 		}
 	}
-	ret.Text = text(n)
+	ret.Text = getText(n)
 	return ret
 }
 
-func text(n *html.Node) string {
+func getText(n *html.Node) string {
 	if n.Type == html.TextNode {
 		return n.Data
 	}
@@ -50,7 +50,7 @@ func text(n *html.Node) string {
 	}
 	var ret string
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		ret += text(c)
+		ret += getText(c)
 	}
 	return strings.Join(strings.Fields(ret), " ")
 }
