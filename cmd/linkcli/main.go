@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/romankravchuk/learn-go/htmlparser"
+	"github.com/romankravchuk/learn-go/link"
 )
 
 var filename string
@@ -25,7 +25,7 @@ func main() {
 
 	r := strings.NewReader(string(data))
 
-	links, err := htmlparser.Parse(r)
+	links, err := link.Parse(r)
 	if err != nil {
 		exit(err)
 	}

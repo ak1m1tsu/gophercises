@@ -1,4 +1,4 @@
-package htmlparser
+package link
 
 import (
 	"io"
