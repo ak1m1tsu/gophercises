@@ -25,37 +25,28 @@ func init() {
 	flag.IntVar(&maxDepth, "depth", 0, "the maximum number of links deep to traverse")
 }
 
-/*
-	TODO:
-	// * GET the webpage
-	// * parse all the links on the page
-	// * build proper urls with our links
-	// * filter out any links w/ a diff domain
-	// * find all pages (BFS)
-	* print out XML
-*/
-
 const xmlns = "http://www.sitemaps.org/schemas/sitemap/0.9"
 
-type loc struct {
+type location struct {
 	Value string `xml:"loc"`
 }
 
 type urlset struct {
-	Urls  []loc  `xml:"url"`
-	Xmlns string `xml:"xmlns,attr"`
+	Urls  []location `xml:"url"`
+	Xmlns string     `xml:"xmlns,attr"`
 }
+
 
 func main() {
 	flag.Parse()
 
-	pages := bfs(urlFlag, maxDepth)
+	links := breadthFirstSearch(urlFlag, maxDepth)
 	toXml := urlset{
-		Urls:  make([]loc, len(pages)),
+		Urls:  make([]location, len(links)),
 		Xmlns: xmlns,
 	}
-	for i, page := range pages {
-		toXml.Urls[i] = loc{page}
+	for i, page := range links {
+		toXml.Urls[i] = location{page}
 	}
 
 	if data, err := xml.MarshalIndent(toXml, "", " "); err != nil {
@@ -68,31 +59,29 @@ func main() {
 	}
 }
 
-func bfs(urlStr string, maxDepth int) []string {
+func breadthFirstSearch(urlStr string, maxDepth int) []string {
 	seen := make(map[string]struct{})
-	var q map[string]struct{}
-	nq := map[string]struct{}{
-		urlStr: struct{}{},
-	}
+	var queue map[string]struct{}
+	newQueue := map[string]struct{}{urlStr: {}}
 	for i := 0; i <= maxDepth; i++ {
-		q, nq = nq, make(map[string]struct{})
-		if len(q) == 0 {
+		queue, newQueue = newQueue, make(map[string]struct{})
+		if len(queue) == 0 {
 			break
 		}
-		for url, _ := range q {
+		for url := range queue {
 			if _, ok := seen[url]; ok {
 				continue
 			}
 			seen[url] = struct{}{}
 			for _, link := range get(url) {
 				if _, ok := seen[link]; !ok {
-					nq[link] = struct{}{}
+					newQueue[link] = struct{}{}
 				}
 			}
 		}
 	}
 	ret := make([]string, 0, len(seen))
-	for url, _ := range seen {
+	for url := range seen {
 		ret = append(ret, url)
 	}
 	return ret
@@ -110,10 +99,10 @@ func get(urlStr string) []string {
 		Host:   reqUrl.Host,
 	}
 	base := baseUrl.String()
-	return filter(hrefs(resp.Body, base), withPrefix(base))
+	return filter(format(resp.Body, base), withPrefix(base))
 }
 
-func hrefs(r io.Reader, base string) []string {
+func format(r io.Reader, base string) []string {
 	links, _ := link.Parse(r)
 	var ret []string
 	for _, l := range links {
