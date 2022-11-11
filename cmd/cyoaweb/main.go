@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/romankravchuk/learn-go/cyoa"
+	"github.com/romankravchuk/learn-go/lib/cyoa"
 )
 
 func main() {

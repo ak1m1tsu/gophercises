@@ -1,6 +1,10 @@
-package gopher
+package main
 
 import "fmt"
+
+func main() {
+	PrintGopher()
+}
 
 // Print Gopher to the Terminal
 func PrintGopher() {

@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/romankravchuk/learn-go/link"
+	"github.com/romankravchuk/learn-go/lib/link"
 )
 
 var filename string

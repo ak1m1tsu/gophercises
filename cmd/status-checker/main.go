@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	statuschecker "github.com/romankravchuk/learn-go/status-checker"
+	statuschecker "github.com/romankravchuk/learn-go/lib/status-checker"
 )
 
 func main() {

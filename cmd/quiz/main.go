@@ -1,6 +1,6 @@
 package main
 
-import "github.com/romankravchuk/learn-go/quiz"
+import "github.com/romankravchuk/learn-go/lib/quiz"
 
 func main() {
 	config := quiz.NewConfig()
