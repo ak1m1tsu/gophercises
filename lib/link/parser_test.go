@@ -7,8 +7,6 @@ import (
 	"golang.org/x/net/html"
 )
 
-// TODO: Write some tests
-
 const testingTemplate = `
 <!DOCTYPE html>
 <html lang="en">

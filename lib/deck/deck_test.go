@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/romankravchuk/learn-go/deck"
+	"github.com/romankravchuk/learn-go/lib/deck"
 )
 
 func TestNew(t *testing.T) {
