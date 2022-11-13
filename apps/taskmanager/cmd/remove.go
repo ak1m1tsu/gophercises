@@ -9,17 +9,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var doCmd = &cobra.Command{
-	Use:   "do",
-	Short: "Do your task.",
-	Run:   doTask,
+var removeCmd = &cobra.Command{
+	Use:   "rm",
+	Short: "Remove your task.",
+	Run:   removeTask,
 }
 
 func init() {
-	RootCmd.AddCommand(doCmd)
+	RootCmd.AddCommand(removeCmd)
 }
 
-func doTask(cmd *cobra.Command, args []string) {
+func removeTask(cmd *cobra.Command, args []string) {
 	var ids []int
 	for _, arg := range args {
 		id, err := strconv.Atoi(arg)
@@ -42,9 +42,9 @@ func doTask(cmd *cobra.Command, args []string) {
 		task := tasks[id-1]
 		err := storage.DeleteTask(task.Key)
 		if err != nil {
-			fmt.Printf("Failed to mark \"%d\" as completed. Error: %s\n", id, err)
+			fmt.Printf("Failed to remove task #%d. Error: %s\n", id, err)
 		} else {
-			fmt.Printf("Marked \"%d\" as compeleted\n", id)
+			fmt.Printf("Removed task #%d\n", id)
 		}
 	}
 }
